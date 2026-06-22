@@ -1,4 +1,3 @@
-# ⌚ WatchStoreApp – Ứng Dụng Bán Đồng Hồ Android
 
 > Ứng dụng di động Android cho phép người dùng mua sắm đồng hồ trực tuyến, quản lý giỏ hàng, theo dõi đơn hàng và quản trị hệ thống bán hàng.
 
@@ -179,7 +178,7 @@ java -version
 
 ```bash
 # Clone repository (nếu đã đưa lên GitHub)
-git clone https://github.com/<username>/WatchStoreApp.git
+git clone https://github.com/Syy256/BTL_mobile.git
 
 # Hoặc mở trực tiếp trong Android Studio:
 # File → Open → chọn thư mục WatchStoreApp/
@@ -292,18 +291,9 @@ WatchStoreApp/
 
 ## 8. Tác Giả
 
-| Họ và tên | Mã sinh viên | Lớp |
-|---|---|---|
-| [Nguyễn Văn A] | [MSSV001] | [Tên lớp] |
-| [Trần Thị B] | [MSSV002] | [Tên lớp] |
+| Họ và tên | Mã sinh viên |
+|---|---|
+| [Đặng Văn Sỹ] | [12523077] | 
+| [Đồng Huy Tài] | [12523078] | 
 
-> ⚠️ **Lưu ý**: Thay thế thông tin trong bảng Tác giả bằng thông tin thật của nhóm trước khi nộp.
 
----
-
-## 📝 Ghi Chú Thêm
-
-- **Không cần kết nối Internet** khi sử dụng ứng dụng (dữ liệu lưu cục bộ SQLite).
-- Nếu muốn **reset dữ liệu**, gỡ cài đặt ứng dụng trên thiết bị và cài lại.
-- File APK debug có thể tìm tại `app/build/outputs/apk/debug/` sau khi build.
-- Để báo lỗi hoặc đóng góp, mở Issue trên trang GitHub của dự án.
