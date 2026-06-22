@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <!-- IMAGE -->
+        <ImageView
+            android:id="@+id/imgSanPham"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:scaleType="centerCrop"
+            android:src="@android:drawable/ic_menu_gallery" />
+
+        <!-- SALE TAG -->
+        <TextView
+            android:id="@+id/tvKm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SALE"
+            android:background="@color/colorRed"
+            android:textColor="@color/colorWhite"
+            android:textSize="10sp"
+            android:padding="3dp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:layout_marginTop="4dp" />
+
+        <!-- NAME -->
+        <TextView
+            android:id="@+id/tvTen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:maxLines="2"
+            android:layout_marginTop="4dp" />
+
+        <!-- BRAND -->
+        <TextView
+            android:id="@+id/tvHang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:textColor="@color/colorGray" />
+
+        <!-- GENDER -->
+        <TextView
+            android:id="@+id/tvGioiTinh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:textColor="@color/colorGray" />
+
+        <!-- ===== NEW TECH INFO ===== -->
+        <TextView
+            android:id="@+id/tvChatLieuVo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:textColor="@color/colorGray"
+            android:layout_marginTop="2dp" />
+
+        <TextView
+            android:id="@+id/tvChatLieuDay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:textColor="@color/colorGray" />
+
+        <TextView
+            android:id="@+id/tvKinh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:textColor="@color/colorGray" />
+
+        <TextView
+            android:id="@+id/tvBaoHanh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:textColor="@color/colorGray" />
+
+        <!-- PRICE KM -->
+        <TextView
+            android:id="@+id/tvGiaKm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorRed"
+            android:layout_marginTop="6dp"
+            android:visibility="gone" />
+
+        <!-- PRICE -->
+        <TextView
+            android:id="@+id/tvGiaBan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+
+        <!-- STOCK -->
+        <TextView
+            android:id="@+id/tvHetHang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hết hàng"
+            android:background="@color/colorGray"
+            android:textColor="@color/colorWhite"
+            android:textSize="11sp"
+            android:padding="3dp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="4dp" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

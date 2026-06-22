@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/colorPrimary"
+            android:padding="20dp">
+            <TextView
+                android:id="@+id/tvChaoAdmin"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tvDoanhThu"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp">
+            <TextView
+                android:id="@+id/tvSoSanPham"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:padding="16dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginEnd="6dp"/>
+            <TextView
+                android:id="@+id/tvSoKhach"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:padding="16dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <TextView
+            android:text="Quản lý"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btnSanPham"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="📦  Quản lý sản phẩm"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_marginBottom="8dp"/>
+        <Button
+            android:id="@+id/btnHang"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="🏷️  Quản lý hãng"
+            android:backgroundTint="#283593"
+            android:layout_marginBottom="8dp"/>
+        <Button
+            android:id="@+id/btnDonHang"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="🧾  Quản lý đơn hàng"
+            android:backgroundTint="#1565C0"
+            android:layout_marginBottom="8dp"/>
+        <Button
+            android:id="@+id/btnNguoiDung"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="👥  Quản lý người dùng"
+            android:backgroundTint="#0277BD"
+            android:layout_marginBottom="16dp"/>
+        <Button
+            android:id="@+id/btnDangXuat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đăng xuất"
+            android:backgroundTint="@color/colorRed"/>
+    </LinearLayout>
+</ScrollView>

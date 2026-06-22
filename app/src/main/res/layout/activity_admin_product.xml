@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- ===== SEARCH ===== -->
+        <EditText
+            android:id="@+id/edtSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="🔍 Tìm kiếm sản phẩm..."
+            android:padding="12dp"
+            android:background="@color/colorWhite"
+            android:layout_margin="8dp"
+            android:inputType="text"
+            android:maxLines="1" />
+
+        <!-- ===== FILTER BAR (NÂNG CẤP) ===== -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spnFilterHang"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:layout_marginEnd="8dp"/>
+
+                <Spinner
+                    android:id="@+id/spnFilterTrangThai"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"/>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- ===== LIST ===== -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSanPham"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:clipToPadding="false"
+            android:scrollbars="vertical" />
+
+    </LinearLayout>
+
+    <!-- ===== FLOATING ACTION BUTTON ===== -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@android:drawable/ic_input_add"
+        app:backgroundTint="@color/colorPrimary"
+        android:contentDescription="Thêm sản phẩm" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
