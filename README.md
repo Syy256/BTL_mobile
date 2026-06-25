@@ -1,299 +1,154 @@
+# WatchStoreApp
 
-> Ứng dụng di động Android cho phép người dùng mua sắm đồng hồ trực tuyến, quản lý giỏ hàng, theo dõi đơn hàng và quản trị hệ thống bán hàng.
-
----
-
-## 📋 Mục Lục
-
-1. [Giới thiệu đề tài](#1-giới-thiệu-đề-tài)
-2. [Cơ sở dữ liệu](#2-cơ-sở-dữ-liệu)
-3. [Kiến trúc & Pipeline](#3-kiến-trúc--pipeline)
-4. [Công nghệ sử dụng](#4-công-nghệ-sử-dụng)
-5. [Tính năng chính](#5-tính-năng-chính)
-6. [Hướng dẫn chạy](#6-hướng-dẫn-chạy)
-7. [Cấu trúc thư mục](#7-cấu-trúc-thư-mục)
-8. [Tác giả](#8-tác-giả)
+Ứng dụng Android để mua bán đồng hồ — khách hàng mua sắm, admin quản lý. Dữ liệu lưu local bằng SQLite, không cần Internet.
 
 ---
 
-## 1. Giới Thiệu Đề Tài
+## Giới thiệu
 
-### Bài toán
-Hiện nay, việc mua sắm đồng hồ trực tuyến ngày càng phổ biến. Tuy nhiên, nhiều cửa hàng nhỏ lẻ vẫn chưa có nền tảng di động để tiếp cận khách hàng hiệu quả. Người quản lý cũng cần công cụ để quản lý kho hàng, đơn hàng và người dùng một cách tập trung.
+Xuất phát từ thực tế là nhiều cửa hàng đồng hồ nhỏ lẻ vẫn chưa có kênh bán hàng trên di động, nhóm xây dựng ứng dụng này để giải quyết hai bài toán cùng lúc: khách hàng cần chỗ để xem và đặt hàng, còn chủ cửa hàng cần quản lý kho và đơn hàng ở một nơi tập trung.
 
-### Mục tiêu
-- Xây dựng ứng dụng Android cho phép khách hàng duyệt sản phẩm, thêm vào giỏ hàng và đặt hàng.
-- Cung cấp giao diện quản trị (Admin) để quản lý sản phẩm, hãng đồng hồ, đơn hàng và người dùng.
-- Lưu trữ dữ liệu cục bộ bằng SQLite, không yêu cầu kết nối Internet.
+Ứng dụng chạy hoàn toàn offline, mọi dữ liệu được lưu trực tiếp trên thiết bị.
 
-### Phạm vi
-- Nền tảng: Android (minSdk 24, targetSdk 34)
-- Ngôn ngữ: Java
-- CSDL: SQLite (Room / SQLiteOpenHelper)
+**Stack:** Java · Android SDK (minSdk 24, targetSdk 34) · SQLite
 
 ---
 
-## 2. Cơ Sở Dữ Liệu
+## Tính năng
 
-Ứng dụng sử dụng **SQLite** lưu trữ cục bộ trên thiết bị. Database được khởi tạo qua `DatabaseHelper.java`.
+**Phía khách hàng**
+- Đăng ký, đăng nhập, đăng xuất
+- Duyệt danh sách đồng hồ, lọc theo hãng
+- Xem chi tiết sản phẩm (ảnh, mô tả, giá)
+- Thêm vào giỏ hàng, chỉnh số lượng, đặt hàng
+- Xem lịch sử đơn hàng và chi tiết từng đơn
+- Chỉnh sửa hồ sơ cá nhân
 
-### Các bảng dữ liệu
-
-| Bảng | Mô tả | Các cột chính |
-|---|---|---|
-| `NguoiDung` | Người dùng (khách & admin) | `id`, `tenDangNhap`, `matKhau`, `hoTen`, `email`, `soDienThoai`, `vaiTro` |
-| `Hang` | Hãng đồng hồ | `id`, `tenHang`, `anhHang` |
-| `SanPham` | Sản phẩm đồng hồ | `id`, `tenSanPham`, `moTa`, `gia`, `soLuong`, `anhSanPham`, `idHang` |
-| `GioHang` | Giỏ hàng | `id`, `idNguoiDung`, `idSanPham`, `soLuong` |
-| `HoaDon` | Đơn hàng | `id`, `idNguoiDung`, `ngayDat`, `tongTien`, `trangThai` |
-| `ChiTietHoaDon` | Chi tiết đơn hàng | `id`, `idHoaDon`, `idSanPham`, `soLuong`, `donGia` |
-
-### Dữ liệu mẫu
-Ứng dụng tự động seed dữ liệu khi khởi chạy lần đầu, bao gồm:
-- Tài khoản admin mặc định: `admin` / `admin123`
-- Các hãng đồng hồ: Casio, Seiko, Citizen, Fossil, DW
-- Sản phẩm mẫu với hình ảnh có sẵn trong `res/drawable`
+**Phía admin**
+- Dashboard tổng quan
+- Quản lý hãng đồng hồ (thêm / sửa / xóa)
+- Quản lý sản phẩm kèm ảnh
+- Xem và cập nhật trạng thái đơn hàng
+- Xem danh sách người dùng
 
 ---
 
-## 3. Kiến Trúc & Pipeline
+## Cơ sở dữ liệu
 
-### Kiến trúc ứng dụng
+Database SQLite được khởi tạo qua `DatabaseHelper.java` với 6 bảng:
+
+| Bảng | Mô tả |
+|---|---|
+| `NguoiDung` | Người dùng — cả khách lẫn admin (`id`, `tenDangNhap`, `matKhau`, `hoTen`, `email`, `soDienThoai`, `vaiTro`) |
+| `Hang` | Hãng đồng hồ (`id`, `tenHang`, `anhHang`) |
+| `SanPham` | Sản phẩm (`id`, `tenSanPham`, `moTa`, `gia`, `soLuong`, `anhSanPham`, `idHang`) |
+| `GioHang` | Giỏ hàng (`id`, `idNguoiDung`, `idSanPham`, `soLuong`) |
+| `HoaDon` | Đơn hàng (`id`, `idNguoiDung`, `ngayDat`, `tongTien`, `trangThai`) |
+| `ChiTietHoaDon` | Chi tiết đơn (`id`, `idHoaDon`, `idSanPham`, `soLuong`, `donGia`) |
+
+Lần chạy đầu tiên, app tự seed sẵn một số dữ liệu mẫu: tài khoản admin mặc định, các hãng (Casio, Seiko, Citizen, Fossil, DW) và một số sản phẩm với ảnh drawable đi kèm.
+
+---
+
+## Kiến trúc
 
 ```
-Người dùng
-    │
-    ▼
-[Activity / UI Layer]
-    │  (gọi DAO)
-    ▼
-[DAO Layer – Data Access Objects]
-    │  (truy vấn SQL)
-    ▼
-[DatabaseHelper – SQLiteOpenHelper]
-    │
-    ▼
-[SQLite Database trên thiết bị]
+Activity / UI
+    ↓
+DAO Layer (CRUD)
+    ↓
+DatabaseHelper (SQLiteOpenHelper)
+    ↓
+SQLite trên thiết bị
 ```
 
-### Luồng chính
+Luồng điều hướng:
 
 ```
-Khởi động → SplashActivity
-    │
+SplashActivity
     ├── Chưa đăng nhập → LoginActivity / RegisterActivity
-    │       └── Xác thực → SessionManager (SharedPreferences)
-    │
     └── Đã đăng nhập
-            ├── Role = USER → MainActivity
-            │       ├── Danh sách sản phẩm (SanPhamAdapter)
-            │       ├── Chi tiết sản phẩm → ProductDetailActivity
-            │       ├── Giỏ hàng → CartActivity → Đặt hàng
-            │       ├── Lịch sử đơn hàng → OrderHistoryActivity → OrderDetailActivity
-            │       └── Hồ sơ cá nhân → ProfileActivity
-            │
-            └── Role = ADMIN → AdminDashboardActivity
-                    ├── Quản lý Hãng → AdminBrandActivity / AdminBrandFormActivity
-                    ├── Quản lý Sản phẩm → AdminProductActivity / AdminProductFormActivity
-                    ├── Quản lý Đơn hàng → AdminOrderActivity
-                    └── Quản lý Người dùng → AdminUserActivity
+            ├── USER → MainActivity
+            │       ├── Danh sách & chi tiết sản phẩm
+            │       ├── Giỏ hàng → Đặt hàng
+            │       ├── Lịch sử đơn hàng
+            │       └── Hồ sơ cá nhân
+            └── ADMIN → AdminDashboardActivity
+                    ├── Quản lý hãng
+                    ├── Quản lý sản phẩm
+                    ├── Quản lý đơn hàng
+                    └── Quản lý người dùng
 ```
 
-### Các lớp chính
-
-| Lớp | Vai trò |
-|---|---|
-| `DatabaseHelper` | Tạo và nâng cấp schema SQLite |
-| `*DAO` | Thao tác CRUD với từng bảng |
-| `*Activity` | Hiển thị UI, xử lý sự kiện |
-| `*Adapter` | Bind dữ liệu vào RecyclerView/ListView |
-| `*Model` | POJO đại diện cho từng bảng |
-| `SessionManager` | Lưu trạng thái đăng nhập qua SharedPreferences |
-| `FormatUtils` | Format tiền tệ, ngày tháng |
+Phiên đăng nhập được lưu qua `SessionManager` (SharedPreferences). Format tiền và ngày tháng dùng chung qua `FormatUtils`.
 
 ---
 
-## 4. Công Nghệ Sử Dụng
+## Hướng dẫn chạy
 
-| Thành phần | Chi tiết |
-|---|---|
-| Ngôn ngữ | Java |
-| Nền tảng | Android SDK (minSdk 24, targetSdk 34) |
-| Build tool | Gradle 9.3.1 |
-| CSDL | SQLite (qua `SQLiteOpenHelper`) |
-| UI | XML Layout, RecyclerView, CardView, ConstraintLayout |
-| Ảnh | Drawable resources (PNG/JPG/WEBP) |
-| Lưu phiên | SharedPreferences (`SessionManager`) |
-| IDE khuyến nghị | Android Studio Hedgehog (2023.1.1) trở lên |
+**Yêu cầu:**
+- Android Studio Hedgehog (2023.1.1) trở lên
+- JDK 17+
+- Android SDK API 24+
+- Thiết bị hoặc emulator Android 7.0+
 
----
-
-## 5. Tính Năng Chính
-
-### Phía Khách Hàng (User)
-- ✅ Đăng ký / Đăng nhập / Đăng xuất
-- ✅ Xem danh sách đồng hồ, lọc theo hãng
-- ✅ Xem chi tiết sản phẩm (ảnh, mô tả, giá)
-- ✅ Thêm sản phẩm vào giỏ hàng, chỉnh số lượng
-- ✅ Đặt hàng và nhận xác nhận
-- ✅ Xem lịch sử đơn hàng và chi tiết từng đơn
-- ✅ Chỉnh sửa hồ sơ cá nhân
-
-### Phía Quản Trị (Admin)
-- ✅ Dashboard tổng quan
-- ✅ CRUD hãng đồng hồ
-- ✅ CRUD sản phẩm (kèm ảnh)
-- ✅ Xem và cập nhật trạng thái đơn hàng
-- ✅ Xem danh sách người dùng
-
----
-
-## 6. Hướng Dẫn Chạy
-
-### Yêu cầu hệ thống
-
-| Yêu cầu | Phiên bản |
-|---|---|
-| Android Studio | Hedgehog 2023.1.1 trở lên |
-| JDK | 17 trở lên |
-| Android SDK | API 24 (Android 7.0) trở lên |
-| Gradle | 9.3.1 (tự động tải) |
-| Thiết bị / Emulator | Android 7.0+ |
-
-### Bước 1 – Cài môi trường
-
-1. Tải và cài đặt [Android Studio](https://developer.android.com/studio)
-2. Trong Android Studio, vào **SDK Manager** và đảm bảo đã cài:
-   - Android SDK Platform 34
-   - Android Emulator
-   - Android SDK Build-Tools 34
+**Các bước:**
 
 ```bash
-# Kiểm tra Java version
-java -version
-# Phải >= 17
-```
-
-### Bước 2 – Mở dự án
-
-```bash
-# Clone repository (nếu đã đưa lên GitHub)
+# 1. Clone về máy
 git clone https://github.com/Syy256/BTL_mobile.git
 
-# Hoặc mở trực tiếp trong Android Studio:
+# 2. Mở trong Android Studio
 # File → Open → chọn thư mục WatchStoreApp/
+
+# 3. Đợi Gradle sync xong (lần đầu cần Internet để tải dependencies)
+
+# 4. Tạo emulator hoặc cắm thiết bị thật, rồi nhấn Run (Shift+F10)
 ```
 
-### Bước 3 – Build & Chạy
+Nếu muốn cài APK trực tiếp không qua Android Studio:
 
-1. Chờ Android Studio sync Gradle tự động (lần đầu cần Internet)
-2. Tạo hoặc kết nối thiết bị:
-   - **Emulator**: `Device Manager` → `Create Device` → chọn API 34
-   - **Thiết bị thật**: bật `Developer Options` + `USB Debugging`
-3. Nhấn nút ▶ **Run** hoặc `Shift+F10`
+```bash
+adb install app/build/outputs/apk/debug/app-debug.apk
+```
 
-### Bước 4 – Đăng nhập
-
-Sau khi cài lên thiết bị, sử dụng tài khoản có sẵn:
+**Tài khoản mặc định:**
 
 | Vai trò | Username | Password |
 |---|---|---|
 | Admin | `admin` | `admin123` |
 | User | Tự đăng ký | — |
 
-### Chạy bản APK debug (không cần Android Studio)
-
-```bash
-# Sau khi build thành công, APK nằm tại:
-app/build/outputs/apk/debug/app-debug.apk
-
-# Cài lên thiết bị qua ADB:
-adb install app/build/outputs/apk/debug/app-debug.apk
-```
-
 ---
 
-## 7. Cấu Trúc Thư Mục
+## Cấu trúc thư mục
 
 ```
 WatchStoreApp/
-├── app/
-│   ├── src/
-│   │   └── main/
-│   │       ├── java/com/example/watchstoreapp/
-│   │       │   ├── activity/          # Các màn hình UI
-│   │       │   │   ├── SplashActivity.java
-│   │       │   │   ├── LoginActivity.java
-│   │       │   │   ├── RegisterActivity.java
-│   │       │   │   ├── MainActivity.java
-│   │       │   │   ├── ProductDetailActivity.java
-│   │       │   │   ├── CartActivity.java
-│   │       │   │   ├── OrderHistoryActivity.java
-│   │       │   │   ├── OrderDetailActivity.java
-│   │       │   │   ├── ProfileActivity.java
-│   │       │   │   ├── AdminDashboardActivity.java
-│   │       │   │   ├── AdminBrandActivity.java
-│   │       │   │   ├── AdminBrandFormActivity.java
-│   │       │   │   ├── AdminProductActivity.java
-│   │       │   │   ├── AdminProductFormActivity.java
-│   │       │   │   ├── AdminOrderActivity.java
-│   │       │   │   └── AdminUserActivity.java
-│   │       │   ├── adapter/           # RecyclerView/ListView adapters
-│   │       │   │   ├── SanPhamAdapter.java
-│   │       │   │   ├── CartAdapter.java
-│   │       │   │   ├── HoaDonAdapter.java
-│   │       │   │   ├── ChiTietHoaDonAdapter.java
-│   │       │   │   ├── AdminHangAdapter.java
-│   │       │   │   ├── AdminSanPhamAdapter.java
-│   │       │   │   ├── AdminHoaDonAdapter.java
-│   │       │   │   └── AdminNguoiDungAdapter.java
-│   │       │   ├── dao/               # Data Access Objects (CRUD)
-│   │       │   │   ├── NguoiDungDAO.java
-│   │       │   │   ├── HangDAO.java
-│   │       │   │   ├── SanPhamDAO.java
-│   │       │   │   ├── GioHangDAO.java
-│   │       │   │   └── HoaDonDAO.java
-│   │       │   ├── database/
-│   │       │   │   └── DatabaseHelper.java   # SQLiteOpenHelper
-│   │       │   ├── model/             # POJO / Entity
-│   │       │   │   ├── NguoiDung.java
-│   │       │   │   ├── Hang.java
-│   │       │   │   ├── SanPham.java
-│   │       │   │   ├── GioHang.java
-│   │       │   │   ├── HoaDon.java
-│   │       │   │   └── ChiTietHoaDon.java
-│   │       │   └── utils/
-│   │       │       ├── FormatUtils.java      # Format tiền, ngày
-│   │       │       └── SessionManager.java   # Quản lý phiên đăng nhập
-│   │       ├── res/
-│   │       │   ├── drawable/          # Ảnh sản phẩm (casio, seiko, fossil…)
-│   │       │   ├── layout/            # XML giao diện các Activity
-│   │       │   ├── menu/              # Menu XML
-│   │       │   └── values/            # colors, strings, themes
-│   │       └── AndroidManifest.xml
-│   └── build.gradle                   # Cấu hình module
-├── data/
-│   └── README_data.md                 # Hướng dẫn: dữ liệu được seed tự động khi chạy
-├── demo/
-│   └── demo_apk_install.md            # Hướng dẫn cài APK demo nhanh
-├── reports/
-│   └── BaoCao_WatchStoreApp.pdf       # Báo cáo đồ án
-├── slides/
-│   └── Slide_WatchStoreApp.pptx       # Slide thuyết trình
-├── build.gradle                       # Cấu hình project
-├── settings.gradle
-├── requirements.txt                   # Không áp dụng (Android/Java; xem phần IDE)
-├── .gitignore
-└── README.md
+├── app/src/main/
+│   ├── java/com/example/watchstoreapp/
+│   │   ├── activity/       # Các màn hình UI
+│   │   ├── adapter/        # Adapter cho RecyclerView/ListView
+│   │   ├── dao/            # Thao tác CRUD với từng bảng
+│   │   ├── database/       # DatabaseHelper.java
+│   │   ├── model/          # POJO tương ứng với các bảng
+│   │   └── utils/          # FormatUtils, SessionManager
+│   └── res/
+│       ├── drawable/       # Ảnh sản phẩm
+│       ├── layout/         # XML giao diện
+│       ├── menu/
+│       └── values/
+├── data/                   # Ghi chú về seed data
+├── demo/                   # Hướng dẫn cài APK nhanh
+├── reports/                # Báo cáo đồ án (.pdf)
+└── slides/                 # Slide thuyết trình (.pptx)
 ```
 
 ---
 
-## 8. Tác Giả
+## Sinh viên
 
-| Họ và tên | Mã sinh viên |
+| Họ và tên | MSSV |
 |---|---|
-| [Đặng Văn Sỹ] | [12523077] | 
-| [Đồng Huy Tài] | [12523078] | 
-
-
+| Đặng Văn Sỹ | 12523077 |
+| Đồng Huy Tài | 12523078 |
